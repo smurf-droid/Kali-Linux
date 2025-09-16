@@ -1,0 +1,48 @@
+#!/bin/zsh
+
+# =================================================================
+#  Kali Linux - Automatisches System-Upgrade
+#  Autor: KaliGem
+#  Version: 1.0
+# =================================================================
+
+# 1. Prüfen, ob das Skript mit root-Rechten ausgeführt wird
+if [[ $EUID -ne 0 ]]; then
+   echo "🛑 Fehler: Dieses Skript muss mit root-Rechten (sudo) ausgeführt werden." 
+   exit 1
+fi
+
+echo "🚀 Starte das automatische System-Upgrade für Kali Linux..."
+echo "--------------------------------------------------------"
+
+# 2. Paketlisten aktualisieren (apt update)
+echo "\n[INFO] Schritt 1/4: Paketlisten werden aktualisiert..."
+if ! apt update -y; then
+    echo "🛑 Fehler bei 'apt update'. Skript wird abgebrochen."
+    exit 1
+fi
+
+# 3. Vollständiges System-Upgrade durchführen (apt full-upgrade)
+# full-upgrade ist für Kali empfohlen, da es auch Abhängigkeiten intelligent auflöst.
+echo "\n[INFO] Schritt 2/4: Vollständiges System-Upgrade wird durchgeführt..."
+if ! apt full-upgrade -y; then
+    echo "🛑 Fehler bei 'apt full-upgrade'. Skript wird abgebrochen."
+    exit 1
+fi
+
+# 4. Nicht mehr benötigte Pakete entfernen (apt autoremove)
+echo "\n[INFO] Schritt 3/4: Nicht mehr benötigte Pakete werden entfernt..."
+if ! apt autoremove -y; then
+    echo "🛑 Fehler bei 'apt autoremove'."
+    exit 1
+fi
+
+# 5. Heruntergeladene Paket-Dateien aufräumen (apt clean)
+echo "\n[INFO] Schritt 4/4: Paket-Cache wird aufgeräumt..."
+apt clean
+
+echo "\n--------------------------------------------------------"
+echo "✅ System-Upgrade erfolgreich abgeschlossen!"
+echo "--------------------------------------------------------"
+
+exit 0
