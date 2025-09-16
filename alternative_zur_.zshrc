@@ -8,7 +8,7 @@
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
-alias mkupd="sudo ~/gitrepos/kali-linux/make_update.sh"
+alias mkupd="sudo ~/gitrepos/Kali-Linux/make_update.sh"
 alias cc='clear'
 alias openzshrc='nano ~/.zshrc'
 
