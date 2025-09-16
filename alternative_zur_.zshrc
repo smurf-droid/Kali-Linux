@@ -1,4 +1,4 @@
-.zshrc-Datei für zsh-interaktive Shells
+#.zshrc-Datei für zsh-interaktive Shells
 # siehe /usr/share/doc/zsh/examples/zshrc für Beispiele
 
 #================================================================================
@@ -19,6 +19,12 @@ alias openzshrc='nano ~/.zshrc'
 export EDITOR="nano"    # setzt nano als Standardeditor
 export DATE=$(date +%d.%m.%Y)
 export TIME=$(date +%H:%M:%S)
+export LANG="de_DE.UTF-8"
+export LC_MESSAGES="de_DE.UTF-8"
+export LC_TIME="de_DE.UTF-8"
+export LC_COLLIATE="de_DE.UTF-8"
+export LC_NUMERIC="de_DE.UTF-8"
+
 
 
 setopt autocd              # Änderungsverzeichnis nur durch Eingabe des Namens
@@ -35,7 +41,7 @@ WORDCHARS='_-' # Don't consider certain characters part of the word
 # hide EOL sign ('%')
 PROMPT_EOL_MARK=""
 
-# configure key keybindings
+# konfiguriere Tastenkürzel
 bindkey -e                                        # emacs key bindings
 bindkey ' ' magic-space                           # do history expansion on space
 bindkey '^U' backward-kill-line                   # ctrl + U
@@ -49,7 +55,7 @@ bindkey '^[[H' beginning-of-line                  # home
 bindkey '^[[F' end-of-line                        # end
 bindkey '^[[Z' undo                               # shift + tab undo last action
 
-# enable completion features
+# die Fertigstellungsfunktionen ermöglichen
 autoload -Uz compinit
 compinit -d ~/.cache/zcompdump
 zstyle ':completion:*:*:*:*:*' menu select
@@ -66,7 +72,7 @@ zstyle ':completion:*' use-compctl false
 zstyle ':completion:*' verbose true
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-# History configurations
+# History Einstellungen
 HISTFILE=~/.zsh_history
 HISTSIZE=1000
 SAVEHIST=2000
@@ -79,7 +85,7 @@ setopt hist_verify            # show command with history expansion to user befo
 # force zsh to show the complete history
 alias history="history 0"
 
-# configure `time` format
+# konfiguriere `time` Format
 TIMEFMT=$'\nreal\t%E\nuser\t%U\nsys\t%S\ncpu\t%P'
 
 # make less more friendly for non-text input files, see lesspipe(1)
@@ -110,6 +116,10 @@ if [ -n "$force_color_prompt" ]; then
         color_prompt=
     fi
 fi
+
+#================================================================================
+#=== PROMPT - DIE EINGABEZEILE
+#================================================================================
 
 configure_prompt() {
     prompt_symbol=㉿
@@ -231,6 +241,10 @@ precmd() {
         fi
     fi
 }
+
+PROMPT="%F{%(#.blue.green)}┌──${debian_chroot:+($debian_chroot)─}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))─}(%B%F{%(#.red.blue)}%n㉿%m%b%F{%(#.blue.green)})-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}]
+└─%B%(#.%F{red}#.%F{blue}$)%b%F{reset}"
+
 
 # enable color support of ls, less and man, and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
