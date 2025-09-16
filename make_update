@@ -14,7 +14,7 @@ fi
 
 # --- NEUER ABSCHNITT: Logging einrichten ---
 # Log-Verzeichnis definieren und erstellen, falls es nicht existiert
-LOG_DIR="~/.logs"
+LOG_DIR="/home/guenther/.logs"
 mkdir -p "$LOG_DIR"
 
 # Log-Datei mit Zeitstempel definieren
