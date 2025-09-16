@@ -1,18 +1,31 @@
 #!/bin/zsh
 
 # =================================================================
-#  Kali Linux - Automatisches System-Upgrade
+#  Kali Linux - Automatisches System-Upgrade mit Logging
 #  Autor: KaliGem
-#  Version: 1.0
+#  Version: 2.0
 # =================================================================
 
 # 1. Prüfen, ob das Skript mit root-Rechten ausgeführt wird
 if [[ $EUID -ne 0 ]]; then
-   echo "🛑 Fehler: Dieses Skript muss mit root-Rechten (sudo) ausgeführt werden." 
+   echo "🛑 Fehler: Dieses Skript muss mit root-Rechten (sudo) ausgeführt werden."
    exit 1
 fi
 
+# --- NEUER ABSCHNITT: Logging einrichten ---
+# Log-Verzeichnis definieren und erstellen, falls es nicht existiert
+LOG_DIR="~/.logs"
+mkdir -p "$LOG_DIR"
+
+# Log-Datei mit Zeitstempel definieren
+LOG_FILE="$LOG_DIR/upgrade-$(date +"%Y-%m-%d_%H-%M-%S").log"
+
+# Alle Ausgaben (stdout und stderr) in die Log-Datei und auf den Bildschirm umleiten
+exec &> >(tee "$LOG_FILE")
+# --- ENDE NEUER ABSCHNITT ---
+
 echo "🚀 Starte das automatische System-Upgrade für Kali Linux..."
+echo "📖 Alle Ausgaben werden in der Datei '$LOG_FILE' gespeichert."
 echo "--------------------------------------------------------"
 
 # 2. Paketlisten aktualisieren (apt update)
